@@ -1,6 +1,6 @@
-# models/engine/file_storage.py
-
 import json
+from models.base_model import BaseModel
+
 
 class FileStorage:
     __file_path = "file.json"
@@ -14,20 +14,17 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        serialized_objs = {}
-        for key, obj in FileStorage.__objects.items():
-            serialized_objs[key] = obj.to_dict()
-        with open(FileStorage.__file_path, mode="w", encoding="utf-8") as file:
-            json.dump(serialized_objs, file)
+        obj_dict = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(obj_dict, file)
 
     def reload(self):
         try:
-            with open(FileStorage.__file_path, mode="r", encoding="utf-8") as file:
-                serialized_objs = json.load(file)
-                for key, value in serialized_objs.items():
-                    class_name, obj_id = key.split(".")
-                    obj_cls = eval(class_name)
-                    obj = obj_cls(**value)
+            with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
+                obj_dict = json.load(file)
+                for key, value in obj_dict.items():
+                    class_name = key.split(".")[0]
+                    obj = BaseModel(**value)
                     FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
