@@ -1,9 +1,15 @@
 #!/usr/bin/python3
 import json
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+
 
 
 class FileStorage:
+
     __file_path = "file.json"
     __objects = {}
 
@@ -11,21 +17,23 @@ class FileStorage:
         return FileStorage.__objects
 
     def new(self, obj):
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        FileStorage.__objects[key] = obj
+        name_obj = obj.__class__.__name__
+        FileStorage.__objects["{}.{}".format(name_obj, obj.id)] = obj
 
     def save(self):
-        obj_dict = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
-        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
+        dict_ = FileStorage.__objects
+        obj_dict = {key: dict_[key].to_dict() for key in dict_.keys()}
+        with open(FileStorage.__file_path, "w") as file:
             json.dump(obj_dict, file)
 
     def reload(self):
+
         try:
-            with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
+            with open(FileStorage.__file_path) as file:
                 obj_dict = json.load(file)
-                for key, value in obj_dict.items():
-                    class_name = key.split(".")[0]
-                    obj = BaseModel(**value)
-                    FileStorage.__objects[key] = obj
+                for val in obj_dict.values():
+                    name = val["__class__"]
+                    del val["__class__"]
+                    self.new(eval(name)(**val))
         except FileNotFoundError:
-            pass
+            return
