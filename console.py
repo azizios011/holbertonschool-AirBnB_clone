@@ -7,31 +7,25 @@ from models.user import User
 from models.place import Place
 from models.state import State
 from models.city import City
-from models.amenity import Amenity
-from models.review import Review
+
 
 
 class HBNBCommand(cmd.Cmd):
-    """Command interpreter class for HBNB"""
 
     prompt = '(hbnb) '
     valid_classes = ["BaseModel", "User", "Place",
                      "State", "City", "Amenity", "Review"]
 
     def do_quit(self, arg):
-        """ exit the program """
         return True
 
     def do_EOF(self, arg):
-        """ exit with ctrl + D """
         return True
 
     def emptyline(self):
-        """ an empty line is entered (do nothing) """
         pass
 
     def do_create(self, arg):
-        """create a new instance"""
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -45,7 +39,6 @@ class HBNBCommand(cmd.Cmd):
         print(instance.id)
 
     def do_show(self, arg):
-        """Prints the string representantion of a instance"""
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -66,7 +59,6 @@ class HBNBCommand(cmd.Cmd):
         print(instances[key])
 
     def do_destroy(self, arg):
-        """Deletes and instance based on the class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
@@ -88,7 +80,6 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
 
     def do_all(self, arg):
-        """print all string representations of instances"""
         args = arg.split()
         instances = storage.all()
         if not args:
@@ -106,7 +97,6 @@ class HBNBCommand(cmd.Cmd):
             print(filtered_instances)
 
     def do_update(self, arg):
-        """updates an instance based on the class name and id"""
         args = arg.split()
         if not args:
             print("** class name missing **")
