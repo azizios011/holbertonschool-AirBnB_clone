@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" the place file"""
 from models.base_model import BaseModel
 
 

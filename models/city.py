@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" the city file"""
 from models.base_model import BaseModel
 
 
