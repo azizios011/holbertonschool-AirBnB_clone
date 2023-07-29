@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-
+"""Unittest module for the amenity."""
 import unittest
 from models.amenity import Amenity
 from models.base_model import BaseModel
+
 
 class TestAmenity(unittest.TestCase):
     def setUp(self):

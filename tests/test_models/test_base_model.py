@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Unittest module for the base_models."""
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime, timedelta
@@ -15,7 +16,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(prev_updated_at, obj.updated_at)
 
         now = datetime.now()
-        self.assertAlmostEqual(obj.updated_at, now, delta=datetime.timedelta(seconds=1))
+        self.assertAlmostEqual(obj.updated_at, now,
+                               delta=datetime.timedelta(seconds=1))
 
     def test_to_dict(self):
         model_dict = self.model.to_dict()
